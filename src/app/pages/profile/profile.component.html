@@ -1,0 +1,68 @@
+<div *ngIf="loading">Loading...</div>
+<div *ngIf="error" class="error">{{ error }}</div>
+
+<form [formGroup]="profileForm" (ngSubmit)="onProfileSubmit()">
+  <h2>User Profile</h2>
+
+  <label>
+    Name:
+    <input formControlName="name" />
+  </label>
+  <div *ngIf="profileForm.get('name')?.invalid && profileForm.get('name')?.touched" class="error">
+    Name is required (min 5 characters).
+  </div>
+
+  <label>
+    Email:
+    <input type="email" formControlName="email" />
+  </label>
+  <div *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched" class="error">
+    Valid email is required.
+  </div>
+
+  <button type="submit" [disabled]="profileForm.invalid || loading">Save Profile</button>
+</form>
+
+<hr />
+
+<form [formGroup]="passwordForm" (ngSubmit)="onPasswordSubmit()">
+  <h2>Change Password</h2>
+
+  <label>
+    Password:
+    <input type="password" formControlName="password1" />
+  </label>
+  <div *ngIf="passwordForm.get('password1')?.invalid && passwordForm.get('password1')?.touched" class="error">
+    Password must be at least 8 characters, include uppercase, lowercase, and a digit.
+  </div>
+
+  <label>
+    Confirm Password:
+    <input type="password" formControlName="password2" />
+  </label>
+  <div *ngIf="passwordForm.errors?.['mismatch'] && passwordForm.get('password2')?.touched" class="error">
+    Passwords do not match.
+  </div>
+
+  <button type="submit" [disabled]="passwordForm.invalid || loading">Change Password</button>
+</form>
+
+<hr />
+
+<div *ngIf="user">
+  <h3>Role: {{ getRoleName(user.role) }}</h3>
+
+  <div>
+    <h4>Permissions:</h4>
+    <ul>
+      <li *ngFor="let p of getAllPermissions()" [style.color]="hasPermission(user.role, p) ? 'green' : 'red'">
+        {{ getPermissionLabel(p) }}
+      </li>
+    </ul>
+  </div>
+
+  <div>
+    <p>Topics written: {{ user.topicsCount }}</p>
+    <p>Comments written: {{ user.commentsCount }}</p>
+  </div>
+</div>

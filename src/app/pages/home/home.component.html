@@ -1,0 +1,32 @@
+<div class="topics">  
+  @for (topic of topics; track trackByTopicId) {
+    <div class="topic">
+      <h3 (click)="toggleExpand(topic.id)" style="cursor: pointer;">
+        {{ topic.title }} — by {{ topic.author.name }}
+      </h3>
+      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded" (click)="deleteTopic(topic)">Delete Topic</button>
+      @if (topic.expanded) {
+        <p class="mb-2">{{ topic.body }}</p>
+
+        <form [formGroup]="commentForms[topic.id]" (ngSubmit)="addComment(topic, null, commentForms[topic.id].value.content)">
+          <input formControlName="content" placeholder="Add a comment..." class="border p-2 w-full mb-2" />
+          <button type="submit" [disabled]="commentForms[topic.id].invalid" class="bg-blue-500 text-white px-4 py-2 rounded">Comment</button>
+        </form>
+
+        <app-comments-tree
+          [comments]="topic.comments"
+          (addComment)="addComment(topic, $event.parentComment, $event.content)"
+          (deleteComment)="deleteComment(topic, $event)"
+        />
+      }
+    </div>
+    <hr class="my-4" />
+  }
+
+  <!-- New Topic Form -->
+  <form [formGroup]="topicForm" (ngSubmit)="addTopic()" class="mt-6 p-4 border rounded">
+    <input formControlName="title" placeholder="Title" class="block w-full p-2 mb-2 border" />
+    <textarea formControlName="body" placeholder="Body" class="block w-full p-2 mb-2 border"></textarea>
+    <button type="submit" [disabled]="topicForm.invalid" class="bg-green-600 text-white px-4 py-2 rounded">Add Topic</button>
+  </form>
+</div>

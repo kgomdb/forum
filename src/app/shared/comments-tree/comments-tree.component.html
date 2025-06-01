@@ -1,0 +1,28 @@
+<ul>
+  @for (comment of comments; track comment.id) {
+    <li class="ml-4 my-2 border-l pl-2">
+      <div [ngClass]="{ 'text-gray-400 italic': comment.removed }">
+        {{ comment.removed ? '[comment removed]' : comment.content }} — {{ comment.author.name }}
+      </div>
+
+      @if (!comment.removed) {
+        <button (click)="deleteComment.emit(comment)" class="text-red-600 text-sm">Delete</button>
+
+        <div class="mt-1">
+          <input
+            placeholder="Reply..."
+            class="border px-2 py-1 w-full"
+          />
+          <button (click)="handleReply(comment)" class="bg-blue-400 text-white text-sm px-3 py-1 mt-1">Reply</button>
+        </div>
+      }
+
+      <!-- Recursive rendering of replies -->
+      <app-comments-tree
+        [comments]="comment.replies"
+        (addComment)="addComment.emit($event)"
+        (deleteComment)="deleteComment.emit($event)"
+      />
+    </li>
+  }
+</ul>
