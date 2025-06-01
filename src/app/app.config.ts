@@ -6,7 +6,7 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { provideHttpClient } from '@angular/common/http';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'profile', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'admin', component: AdminComponent },

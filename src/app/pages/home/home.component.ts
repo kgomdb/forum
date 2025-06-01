@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit {
     effect(() => {
       const user = this.userService.currentUser();
       if (user) {
-        
         this.user = user;
       }
     });
@@ -39,7 +38,7 @@ export class HomeComponent implements OnInit {
       this.topics = topics.map(t => ({ ...t, expanded: false }));
       this.topics.forEach(t => {
         this.commentForms[t.id] = this.fb.group({
-          content: ['', Validators.required],
+          body: ['', Validators.required],
         });
       });
     });
@@ -69,9 +68,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  addComment(topic: Topic, parentComment: Comment | null, content: string) {
-    if (!content.trim()) return;
-    this.forumService.addComment(topic.id, content, parentComment?.id ?? null).subscribe((newComment) => {
+  addComment(topic: Topic, parentComment: Comment | null, body: string) {
+    if (!body.trim()) return;
+    this.forumService.addComment(topic.id, body, parentComment?.id ?? null, this.user).subscribe((newComment) => {
       newComment.replies = [];
       if (parentComment) {
         parentComment.replies.push(newComment);

@@ -11,7 +11,7 @@ export interface User {
 
 export interface Comment {
   id: number;
-  content: string;
+  body: string;
   author: User;
   parentId: number | null;
   replies: Comment[];
@@ -46,8 +46,8 @@ export class ForumService {
     return this.http.delete<void>(`${this.baseUrl}/topic/${topicId}`);
   }
 
-  addComment(topicId: number, content: string, parentId: number | null): Observable<Comment> {
-    return this.http.post<Comment>(`${this.baseUrl}/topic/${topicId}/comment/add`, { content, parentId });
+  addComment(topicId: number, body: string, parentId: number | null, author: User): Observable<Comment> {
+    return this.http.post<Comment>(`${this.baseUrl}/topic/${topicId}/comment/add`, { body, parentId, author });
   }
 
   deleteComment(topicId: number, commentId: number): Observable<void> {
