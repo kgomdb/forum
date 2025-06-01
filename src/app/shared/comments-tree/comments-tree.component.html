@@ -25,7 +25,7 @@
         </div>
       }
       <app-comments-tree
-        [comments]="comment.replies"
+        [comments]="comment.comments"
         (addComment)="addComment.emit($event)"
         (deleteComment)="deleteComment.emit($event)"
       />

@@ -14,7 +14,7 @@ export interface Comment {
   body: string;
   author: User;
   parentId: number | null;
-  replies: Comment[];
+  comments: Comment[];
   removed: boolean;
 }
 

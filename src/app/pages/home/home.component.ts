@@ -71,9 +71,9 @@ export class HomeComponent implements OnInit {
   addComment(topic: Topic, parentComment: Comment | null, body: string) {
     if (!body.trim()) return;
     this.forumService.addComment(topic.id, body, parentComment?.id ?? null, this.user).subscribe((newComment) => {
-      newComment.replies = [];
+      newComment.comments = newComment.comments;
       if (parentComment) {
-        parentComment.replies.push(newComment);
+        parentComment.comments.push(newComment);
       } else {
         topic.comments.push(newComment);
       }
